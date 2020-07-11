@@ -35,6 +35,18 @@ class App extends Component {
       this.setState({ expense: [...expense, newItem] });
     }
   }
+
+  deleteItem(k) {
+    const { income, expense } = this.state;
+    if (income.length > 0) {
+      const newList = income.filter((item) => item.name + item.amount !== k);
+      this.setState({ income: newList });
+    }
+    if (expense.length > 0) {
+      const newList = expense.filter((item) => item.name + item.amount !== k);
+      this.setState({ expense: newList });
+    }
+  }
   render() {
     let totalIncome = 0;
     let totalExpense = 0;
@@ -44,9 +56,7 @@ class App extends Component {
         return accumulator + currentValue.amount;
       }, 0);
     }
-    // objs.reduce(function(accumulator, currentValue) {
-    //   return accumulator + currentValue.age;
-    // }, 0);
+
     if (expense.length > 0) {
       totalExpense = expense.reduce(function (accumulator, currentValue) {
         return accumulator + currentValue.amount;
@@ -57,7 +67,11 @@ class App extends Component {
       <div className="container">
         <h4>Expense Tracker</h4>
         <Balance income={totalIncome} expense={totalExpense} />
-        <History history={[...income, ...expense]} />
+        <History
+          // updateHistory={this.updateHistory.bind(this)}
+          history={[...income, ...expense]}
+          deleteItem={this.deleteItem.bind(this)}
+        />
         <Transaction
           setAmount={this.setAmount}
           setName={this.setName}

@@ -1,26 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class History extends Component {
-  render() {
-    return (
-      <div>
-        <h3>History</h3>
-        <ul className="list">
-          {this.props.history.map((item) => {
-            return (
-              <li
-                className={item.amount > 0 ? 'plus' : 'minus'}
-                key={item.name + item.amount}
+const History = (props) => {
+  return (
+    <div>
+      <h3>History</h3>
+      <ul className="list">
+        {props.history.map((item) => {
+          return (
+            <li
+              className={item.amount > 0 ? 'plus' : 'minus'}
+              key={item.name + item.amount}
+            >
+              <p>{item.name}</p>
+              <p>{item.amount}</p>
+              <button
+                className="delete-btn"
+                onClick={() => props.deleteItem(item.name + item.amount)}
               >
-                <p>{item.name}</p>
-                <p>{item.amount}</p>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    );
-  }
-}
+                X
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
 
 export default History;
