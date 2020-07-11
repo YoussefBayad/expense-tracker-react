@@ -57,7 +57,7 @@ class App extends Component {
       <div className="container">
         <h4>Expense Tracker</h4>
         <Balance income={totalIncome} expense={totalExpense} />
-        <History />
+        <History history={[...income, ...expense]} />
         <Transaction
           setAmount={this.setAmount}
           setName={this.setName}
