@@ -19,13 +19,11 @@ class App extends Component {
   setName(e) {
     const { amount } = this.state.newItem;
     this.setState({ newItem: { name: e.target.value, amount: amount } });
-    e.target.value = '';
   }
   setAmount(e) {
     const { name } = this.state.newItem;
 
-    this.setState({ newItem: { name: name, amount: e.target.value } });
-    e.target.value = '';
+    this.setState({ newItem: { name: name, amount: Number(e.target.value) } });
   }
   setItem(e) {
     e.preventDefault();
@@ -38,10 +36,27 @@ class App extends Component {
     }
   }
   render() {
+    let totalIncome = 0;
+    let totalExpense = 0;
+    let { income, expense } = this.state;
+    if (income.length > 0) {
+      totalIncome = income.reduce(function (accumulator, currentValue) {
+        return accumulator + currentValue.amount;
+      }, 0);
+    }
+    // objs.reduce(function(accumulator, currentValue) {
+    //   return accumulator + currentValue.age;
+    // }, 0);
+    if (expense.length > 0) {
+      totalExpense = expense.reduce(function (accumulator, currentValue) {
+        return accumulator + currentValue.amount;
+      }, 0);
+    }
+
     return (
       <div className="container">
         <h4>Expense Tracker</h4>
-        <Balance />
+        <Balance income={totalIncome} expense={totalExpense} />
         <History />
         <Transaction
           setAmount={this.setAmount}
