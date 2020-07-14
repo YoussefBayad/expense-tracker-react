@@ -1,11 +1,12 @@
 import React from 'react';
 
-const History = (props) => {
+const History = ({ history, deleteItem }) => {
   return (
     <div>
       <h3>History</h3>
       <ul className="list">
-        {props.history.map((item) => {
+        {history.map((item) => {
+          const q = item.name + item.amount;
           return (
             <li
               className={item.amount > 0 ? 'plus' : 'minus'}
@@ -13,10 +14,7 @@ const History = (props) => {
             >
               <p>{item.name}</p>
               <p>{item.amount}</p>
-              <button
-                className="delete-btn"
-                onClick={() => props.deleteItem(item.name + item.amount)}
-              >
+              <button className="delete-btn" onClick={deleteItem(q)}>
                 X
               </button>
             </li>
