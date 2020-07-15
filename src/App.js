@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import './App.css';
 import Balance from './components/Balance';
-import History from './components/History';
 import Transaction from './components/Transaction';
+import History from './components/History';
 
 const App = () => {
   const [income, setIncome] = useState([]);
   const [expense, setExpense] = useState([]);
   const [newItem, setNewItem] = useState({});
-  // useEffect(() => setNewItem({ amount: 0, name: '' }), []);
+  const history = [...income, ...expense];
+
   const setName = (e) => {
     const { amount } = newItem;
     setNewItem({ name: e.target.value, amount: amount });
@@ -34,17 +35,18 @@ const App = () => {
     }
   };
 
-  const deleteItem = (k) => {
+  const deleteItem = (id) => {
     console.log('iside delete');
+    console.log(id);
     if (income.length > 0) {
       const newList = income.filter((item) => {
-        console.log(item.name);
-        return item.name + item.amount !== k;
+        return item.name + item.amount !== id;
       });
       setIncome(newList);
+      console.log(newList);
     }
     if (expense.length > 0) {
-      const newList = expense.filter((item) => item.name + item.amount !== k);
+      const newList = expense.filter((item) => item.name + item.amount !== id);
       console.log(newList);
 
       setExpense(newList);
@@ -69,10 +71,7 @@ const App = () => {
     <div className="container">
       <h4>Expense Tracker</h4>
       <Balance income={totalIncome} expense={totalExpense} />
-      <History
-        history={[...income, ...expense]}
-        deleteItem={(q) => deleteItem}
-      />
+      <History history={history} deleteItem={deleteItem} />
       <Transaction
         setAmount={() => setAmount}
         setName={() => setName}
